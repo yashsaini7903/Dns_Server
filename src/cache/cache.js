@@ -10,7 +10,7 @@ class CacheNode{
 }
 
 class DnsCache{
-    constructor(maxSize = 1000){
+    constructor(maxSize = process.env.CACHE_MAX_SIZE || 1000){
         this.maxSize = maxSize;
         this.size = 0;
         this.cache = new Map();
@@ -22,7 +22,7 @@ class DnsCache{
          // Statistics
         this.hits = 0;
         this.misses = 0;
-    
+        console.log('Cache Instance created with size:', maxSize);
     }
 
     addToFront(node) {
@@ -310,7 +310,7 @@ class DnsCache{
     }
 
     cleanupExpired() {
-
+        console.log("Running cache cleanup...");
         const now = Date.now();
 
         while (this.expiryHeap.length > 0) {
@@ -346,9 +346,11 @@ class DnsCache{
             ) {
                 this.removeNode(node);
             }
+            
         }
+        console.log(`Expired cache entry removed. Current cache size: ${this.cache.size}`);
     }
 
 }
 
-module.exports = DNSCache;
+module.exports = DnsCache;

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "mydomain.com",
+    "type": "A",
+    "value": "10.0.0.10",
+    "ttl": 300
+  },
+  {
+    "name": "www.mydomain.com",
+    "type": "A",
+    "value": "10.0.0.11",
+    "ttl": 300
+  },
+  {
+    "name": "api.mydomain.com",
+    "type": "A",
+    "value": "10.0.0.20",
+    "ttl": 300
+  },
+  {
+    "name": "admin.mydomain.com",
+    "type": "A",
+    "value": "10.0.0.30",
+    "ttl": 600
+  },
+  {
+    "name": "mail.mydomain.com",
+    "type": "A",
+    "value": "10.0.0.40",
+    "ttl": 3600
+  },
+  {
+    "name": "mydomain.com",
+    "type": "AAAA",
+    "value": "2001:db8::10",
+    "ttl": 300
+  },
+  {
+    "name": "www.mydomain.com",
+    "type": "CNAME",
+    "value": "mydomain.com",
+    "ttl": 300
+  },
+  {
+    "name": "mydomain.com",
+    "type": "TXT",
+    "value": "v=spf1 mx ~all",
+    "ttl": 3600
+  },
+  {
+    "name": "api.mydomain.com",
+    "type": "TXT",
+    "value": "environment=production",
+    "ttl": 600
+  },
+  {
+    "name": "test1.mydomain.com",
+    "type": "A",
+    "value": "10.0.0.101",
+    "ttl": 10
+  },
+  {
+    "name": "test2.mydomain.com",
+    "type": "A",
+    "value": "10.0.0.102",
+    "ttl": 20
+  },
+  {
+    "name": "test3.mydomain.com",
+    "type": "A",
+    "value": "10.0.0.103",
+    "ttl": 30
+  }
+]

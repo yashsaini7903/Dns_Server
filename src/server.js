@@ -5,7 +5,11 @@ const dnsPacket = require("dns-packet");
 
 console.log("2. dns-packet loaded");
 
-const { findRecord } = require("./record");
+require("dotenv").config();
+
+require("./config/db");
+
+const { findRecord, setInCache } = require("./record");
 console.log("3. record.js loaded");
 const { resolveFromUpstream } = require("./resolver");
 console.log("4. resolver.js loaded");
@@ -27,8 +31,9 @@ server.on("message", async (msg, rinfo) =>{
     const localRecord = await findRecord(name, type);
     
 
-    if (localRecord) {
+    if (localRecord){
       console.log(`Found local record for ${name}:`, localRecord);
+      setInCache(name, type, localRecord);
 
      const response = {
         id: request.id,
@@ -41,7 +46,7 @@ server.on("message", async (msg, rinfo) =>{
                         name: localRecord.name,
                         ttl: localRecord.ttl,
                         class: "IN",
-                        data: localRecord.address
+                        data: localRecord.value
                     }
         ]
     }
@@ -59,6 +64,8 @@ server.on("message", async (msg, rinfo) =>{
                 await resolveFromUpstream(msg);
 
             // upstreamResponse is already a DNS packet Buffer.
+            setInCache(name, type, upstreamResponse);
+            console.log(`Upstream response received for ${name}. Sending back to client.`);
             server.send(
                 upstreamResponse,
                 rinfo.port,
@@ -77,6 +84,6 @@ server.on("error", (error) => {
     console.error("UDP SERVER ERROR:", error);
 });
 
-server.bind(5354, "0.0.0.0", () => {
-    console.log("DNS server running on UDP port 5353");
+server.bind(process.env.PORT || 5354, "0.0.0.0", () => {
+    console.log("DNS server running on UDP port 5354");
 });
