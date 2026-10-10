@@ -9,7 +9,7 @@ const query = dnsPacket.encode({
     flags: 0,
     questions: [
         {
-            name: "api.mydomain.com",
+            name: "google.com",
             type: "A"
         }
     ]

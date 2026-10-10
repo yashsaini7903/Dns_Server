@@ -33,6 +33,7 @@ server.on("message", async (msg, rinfo) =>{
 
     if (localRecord){
       console.log(`Found local record for ${name}:`, localRecord);
+
       setInCache(name, type, localRecord);
 
      const response = {
@@ -63,8 +64,19 @@ server.on("message", async (msg, rinfo) =>{
         const upstreamResponse =
                 await resolveFromUpstream(msg);
 
+            const DecodedResponse = dnsPacket.decode(upstreamResponse);
+
+            const answers = {
+                name: DecodedResponse.answers[0].name,
+                type: DecodedResponse.answers[0].type,
+                value: DecodedResponse.answers[0].data,
+                ttl: DecodedResponse.answers[0].ttl,
+            }
+
+            console.log(`Upstream response for ${name}:`, answers);
+
             // upstreamResponse is already a DNS packet Buffer.
-            setInCache(name, type, upstreamResponse);
+            setInCache(name, type, answers);
             console.log(`Upstream response received for ${name}. Sending back to client.`);
             server.send(
                 upstreamResponse,
